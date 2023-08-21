@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, Date
+from sqlalchemy import , Column, Integer, String, Boolean, Date
 from sqlalchemy.orm import sessionmaker, declarative_base
 import pandas as pd
 import pdb
@@ -13,7 +13,7 @@ class CorpoAspirantes(Base):
     Nome = Column(String)
 
     def __init__(self):
-        self.engine = create_engine('postgresql://postgres:anaeivan10@localhost:5432/postgres')
+        self.engine = create_engine(f'${{DATABASE_URL_CONNECTION}}')
         self.session = sessionmaker(bind=self.engine)()
 
     def inserir_corpo_de_aspirantes(self, df_):
@@ -48,7 +48,7 @@ class ObservacoesDinamicas(Base2):
 
 class OperacoesObservacoes:
     def __init__(self):
-        self.engine = create_engine('postgresql://postgres:anaeivan10@localhost:5432/postgres')
+        self.engine = (f'${{DATABASE_URL_CONNECTION}}')
         self.session = sessionmaker(bind=self.engine)()
 
     def criar_table(self):
