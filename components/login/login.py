@@ -20,17 +20,25 @@ card_style = {
 def render_layout(message):
     message = "Ocorreu algum erro durante o login." if message == "error" else message
     layout = dbc.Card([
-                html.Legend("Login", className='dbc'),
-                dbc.Input(id="user_login", placeholder="Número Interno", type="text", class_name='dbc', style={'margin-top': '5px', 'margin-bottom': '5px'}),
-                dbc.Input(id="pwd_login", placeholder="Senha", type="password", class_name='dbc', style={'margin-top': '5px', 'margin-bottom': '5px'}),
-                dbc.Button("Login", id="login_button", class_name='dbc', style={'margin-bottom': '5px', 'margin-top': '5px'}),
-                html.Span(message, style={"text-align": "center"}),
-                
-                html.Div([
+        dbc.CardBody([
+            dbc.Row([
+                dbc.Col([
+                    html.Legend("Login", className='dbc', style={'margin-bottom': '10px'}),
+                    dbc.Input(id="user_login", placeholder="Número Interno", type="text", class_name='dbc', style={'margin-top': '5px', 'margin-bottom': '5px'}),
+                    dbc.Input(id="pwd_login", placeholder="Senha", type="password", class_name='dbc', style={'margin-top': '5px', 'margin-bottom': '5px'}),
+                    dbc.Button("Login", id="login_button", class_name='dbc', style={'margin-bottom': '5px', 'margin-top': '5px'}),
+                    html.Span(message, style={"text-align": "center"}),
+                ], style={'text-align': 'center'})
+            ]),
+            dbc.Row([
+                dbc.Col([
+                     html.Div([
                     html.Label("Ou", style={"margin-right": "5px"}),
                     dcc.Link("Registre-se", href="/register"),
                 ], style={"padding": "20px", "justify-content": "center", "display": "flex"})
-
+                ])
+            ])
+        ]),
             ], style=card_style, className="align-self-center") 
     return layout
 

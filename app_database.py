@@ -93,7 +93,12 @@ class OperacoesObservacoes:
         if df.empty:
             return 'Sem ODs Inseridas no Banco de Dados Até Agora'
         else:
-            filtered_df = df[df['Tipo de OD'] == tipo_de_od].groupby(by=['Numero Interno'])[['Tipo de OD']].sum()
+            partial_df = df[df['Tipo de OD'] == tipo_de_od]
+            if partial_df.empty:
+                response = 'Sem ODs positivas no Banco de dados' if tipo_de_od == 2 else 'Sem ODs negativas no banco de dados'
+                return response
+            
+            filtered_df = partial_df.groupby(by=['Numero Interno'])[['Tipo de OD']].sum()
             filtered_df.reset_index(inplace=True)
             filtered_df['Tipo de OD'] = filtered_df['Tipo de OD'].astype('int32')
             filtered_df.set_index('Numero Interno', inplace=True)

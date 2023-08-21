@@ -88,6 +88,7 @@ def table(n1, n2, asp_pos, asp_neg):
     if n1 is None and n2 is None:
         raise PreventUpdate
     
+    pdb.set_trace()
     ctx = dash.callback_context
     if ctx.triggered:
         trigg_id = ctx.triggered[0]['prop_id'].split('.')[0]
@@ -141,8 +142,10 @@ def table_(n1, searched_data):
             return dbc.Container([dbc.Row([dbc.Col([dbc.Label('Esse Aspirante não possui nenhuma anotação')])])], fluid=True), f"ASPIRANTE {searched_data['numero']} {searched_data['nome']}"
         if searched_data['tipo_filter'] == 1:
             df = df[df['Tipo de OD'] == 1]
+            pdb.set_trace()
             df = df[(df['Data'] <= searched_data['final_date']) & (df['Data'] >= searched_data['initial_date'])]
         elif searched_data['tipo_filter'] == 2:
+            pdb.set_trace()
             df = df[df['Tipo de OD'] == 1]
             df = df[(df['Data'] <= searched_data['final_date']) & (df['Data'] >= searched_data['initial_date'])]
  

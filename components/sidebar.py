@@ -42,14 +42,14 @@ layout_sidebar = dbc.Container([
             dbc.Row([
                 dbc.Col([
                     dbc.Nav([
-                        dbc.NavItem(dbc.NavLink([html.I(className='fa fa-home dbc'), '\tINÍCIO'], href='/home', active=True, style={'text-align': 'left', 'font-size': '14px'}, id='home_button')),
-                        html.Br(),
                         dbc.NavItem(dbc.NavLink([html.I(className='fa fa-plus-circle dbc'), '\tADICIONAR OD'], id='nova_od_button', active=True, style={'text-align': 'left', 'font-size':'13px'})),
                         html.Br(),
                         dbc.NavItem(dbc.NavLink([html.I(className='fa fa-cogs dbc'), '\tREINICIAR ANO'], id='admin_button', active=True, style={'text-align': 'left', 'font-size': '13px'})),
                         html.Br(),
                         dbc.NavItem(dbc.NavLink([html.I(className='fa fa-window-close-o'), '\tLOGOUT'], id='logout_button', active=True, style={'text-align': 'left', 'font-size': '14px'})),
-                    ], vertical=True, pills=True, fill=True, style={'margin-right': '0px', 'margin-left': '5px'} )
+                        html.Br()
+                    ], vertical=True, pills=True, fill=True, style={'margin-right': '0px', 'margin-left': '5px'} ),
+                    html.Div(id='feedback_div', className='dbc')
                 ])
             ]),
             #

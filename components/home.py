@@ -179,7 +179,19 @@ def gerar_destaque_positivo():
     if asp == 'Sem ODs Inseridas no Banco de Dados Até Agora':
         card = dbc.Row([
             dbc.Col([
-                html.Legend('Sem Nenhuma Observação Dinâmica no Banco de Dados')
+                dbc.Label('Sem Nenhuma Observação Dinâmica no Banco de Dados', id='nome_aspirante_pos')
+            ]),
+            dbc.Col([
+                dbc.Button('Abrir', id='olhar_destaque_positivo', style={'height': '60px', 'width': '180px'}, n_clicks=None, disabled=True)
+            ])
+        ])
+    elif asp == 'Sem ODs positivas no Banco de dados' or asp == 'Sem ODs negativas no banco de dados':
+        card = dbc.Row([
+            dbc.Col([
+                dbc.Label(asp, id='nome_aspirante_pos')
+            ]),
+            dbc.Col([
+                dbc.Button('Abrir', id='olhar_destaque_positivo', style={'height': '60px', 'width': '180px'}, n_clicks=None, disabled=True)
             ])
         ])
     else:
@@ -231,9 +243,22 @@ def gerar_card_negativo():
     if asp == 'Sem ODs Inseridas no Banco de Dados Até Agora':
         card = dbc.Row([
             dbc.Col([
-                html.Legend('Sem Nenhuma Observação Dinâmica no Banco de Dados')
+                dbc.Label('Sem Nenhuma Observação Dinâmica no Banco de Dados', id='nome_aspirante_neg')
+            ]),
+            dbc.Col([
+                dbc.Button('Abrir', id='olhar_destaque_negativo', style={'height': '60px', 'width': '180px'}, n_clicks=None, disabled=True)
             ])
         ])
+    elif asp == 'Sem ODs Positivas no Banco de dados' or asp == 'Sem ODs negativas no banco de dados':
+        card = dbc.Row([
+            dbc.Col([
+                dbc.Label(asp, id='nome_aspirante_neg')
+            ]),
+            dbc.Col([
+                dbc.Button('Abrir', id='olhar_destaque_negativo', style={'height': '60px', 'width': '180px'}, n_clicks=None, disabled=True)
+            ])
+        ])
+        
     else:
         nome = CorpoAspirantes().buscar_aspirante('Num_interno', asp[0]).Nome
         df_positivo = OperacoesObservacoes().buscar_ods_aspirante(None, asp[0])

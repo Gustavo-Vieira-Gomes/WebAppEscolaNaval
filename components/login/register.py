@@ -20,21 +20,26 @@ def render_layout(message):
     message = 'ocorreu um erro durante o registro.' if message else message
 
     layout = dbc.Card([
-        dbc.CardHeader([
-            html.Legend('Registrar')
-        ]),
         dbc.CardBody([
-            dbc.Input(id='numero_interno_register', placeholder='Número Interno', type='text'),
-            dbc.Input(id='pwd_padrao', placeholder='Senha Padrão', type='password'),
-            dbc.Input(id='pwd_usuario', placeholder='Nova senha', type='password'),
-            dbc.Button('Registrar', id='register-button'),
-            html.Span(message, style={'text-align': 'center'}),
-
-            html.Div([
-                html.Label('Ou ', style={'margin-right': '5px'}),
-                dcc.Link('faça login', href='/login')
-            ], style={'padding': '20px', 'justify-content': 'center', 'display': 'flex'})
-        ])
+            dbc.Row([
+                dbc.Col([
+                    html.Legend('Registrar'),
+                    dbc.Input(id='numero_interno_register', placeholder='Número Interno', type='text', style={'margin-top': '5px', 'margin-bottom': '5px'}),
+                    dbc.Input(id='pwd_padrao', placeholder='Senha Padrão', type='password', style={'margin-top': '5px', 'margin-bottom': '5px'}),
+                    dbc.Input(id='pwd_usuario', placeholder='Nova senha', type='password', style={'margin-top': '5px', 'margin-bottom': '5px'}),
+                    dbc.Button('Registrar', id='register-button'),
+                    html.Span(message, style={'text-align': 'center'}),
+                ], style={'text-align': 'center'})
+            ]),
+            dbc.Row([
+                dbc.Col([
+                    html.Div([
+                    html.Label('Ou ', style={'margin-right': '5px'}),
+                    dcc.Link('faça login', href='/login')
+                    ], style={'padding': '20px', 'justify-content': 'center', 'display': 'flex'})
+                ])
+            ]),
+    ])
     ], style=card_style, class_name='align-self-center')
 
     return layout

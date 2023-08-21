@@ -66,6 +66,7 @@ layout = dbc.Modal([
     Output('nome_de_guerra', 'value'),
     Output('nome_responsavel_od', 'value'),
     Output('descricao_od', 'value'),
+    Output('feedback_div', 'children', allow_duplicate=True),
     Input('adicionar_od_button', 'n_clicks'),
     State('num_int', 'value'),
     State('nome_de_guerra', 'value'),
@@ -73,7 +74,8 @@ layout = dbc.Modal([
     State('positivity', 'value'),
     State('repreensao_po', 'value'),
     State('data_da_od', 'date'),
-    State('descricao_od', 'value')
+    State('descricao_od', 'value'),
+    prevent_initial_call=True
 )
 def adicionar_od_no_bd(n_clicks, num_int, nome_de_guerra, nome_responsavel, sinal, repreensao, data, descricao):
     if n_clicks is None:
@@ -82,7 +84,7 @@ def adicionar_od_no_bd(n_clicks, num_int, nome_de_guerra, nome_responsavel, sina
     try:
         OperacoesObservacoes().adicionar_od(num_int=num_int, nome= nome_de_guerra, responsavel=nome_responsavel, data=data, tipo=sinal, repreensao=repreensao, descricao=descricao)
         #print('Feito')
-        return None, None, None, None
+        return None, None, None, None, dbc.Label('OD adicionada com sucesso! ')
     except Exception as E:
         print(E)
-        return None, None, None, None
+        return None, None, None, None, dbc.Label('OD adicionada com sucesso! ')

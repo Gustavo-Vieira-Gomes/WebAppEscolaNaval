@@ -51,7 +51,6 @@ layout = dbc.Modal([
                             ]),
                             id='novo_CA', 
                             className='dbc'),
-                            html.Div(id='feedback_upload')
                     ]),
                 ]),
                 dbc.Row([    
@@ -120,7 +119,7 @@ def ativar_excluir_ods(value_atualizar, value_excluir):
 
 
 @app.callback(
-    Output('feedback_upload', 'children'),
+    Output('feedback_div', 'children'),
     Input('atualizar_button', 'n_clicks'),
     State('excluir_ods', 'value'),
     State('atualizar_corpo_de_aspirantes', 'value'),
@@ -133,11 +132,17 @@ def reiniciar_ano(n_clicks, excluir_ods, atualizar_CA, conteudo, filename, passw
     if n_clicks is None:
         PreventUpdate
     hashed_password = AdminPasswordOperation().pegar_senha()
+    response = ''
     #pdb.set_trace()
     if check_password_hash(hashed_password, password):
         if excluir_ods == True:
-            OperacoesObservacoes().excluir_ods()
-            OperacoesObservacoes().criar_table()
+            try:
+                OperacoesObservacoes().excluir_ods()
+                OperacoesObservacoes().criar_table()
+                response += 'ODs excluidas com sucesso! '
+            except:
+                print('Erro excluindo as ODs')
+                response += 'Erro ao excluir as ODs! '
         
         if atualizar_CA == True:
             if conteudo is not None:
@@ -145,18 +150,19 @@ def reiniciar_ano(n_clicks, excluir_ods, atualizar_CA, conteudo, filename, passw
                 # pdb.set_trace()
                 if df.empty:
                     print('erro fazendo upload')
-                    return html.Div([
-                                'Erro fazendo o upload do arquivo. Tente Novamente.'
-                            ])
+                    response += 'Erro ao fazer Upload. Não consegui ler o arquivo ou o arquivo está vazio! '
                 else:
+                    try:
                     # pdb.set_trace()
-                    CorpoAspirantes().excluir_corpo_de_aspirantes()
-                    CorpoAspirantes().inserir_corpo_de_aspirantes(df)
-                    Database_Users().cadastrar_users(df)
-                    print('upload bem sucedido')
-                    return html.Div([
-                                'Upload bem-sucedido'
-                            ])
+                        CorpoAspirantes().excluir_corpo_de_aspirantes()
+                        CorpoAspirantes().inserir_corpo_de_aspirantes(df)
+                        Database_Users().cadastrar_users(df)
+                        print('upload bem sucedido')
+                        response += 'Banco de dados atualizado com sucesso! '
+                    except:
+                        response += 'Não foi possível inserir sua planilha no banco de dados! '
+
+        return dbc.Label(response)
             
             
 @app.callback(
@@ -196,6 +202,7 @@ def abrir_e_fechar_modificar_users(n1, n2, n3, n4, is_open):
     Output('modify_user', 'value'),
     Output('required_password', 'value'),
     Output('admin_password2', 'value'),
+    Output('feedback_div', 'children', allow_duplicate=True),
     Input('new_user_button', 'n_clicks'),
     State('operation_user', 'data'),
     State('modify_user', 'value'),
@@ -208,9 +215,15 @@ def modificar_users(n_clicks, operacao, user, new_user_password, admin_password)
         hashed_password = AdminPasswordOperation().pegar_senha()
         if check_password_hash(hashed_password, admin_password):
             if operacao == 'adicionar':
-                Database_Users().adicionar_usuario(user, generate_password_hash(new_user_password))
-                return None, None, None
+                try:
+                    Database_Users().adicionar_usuario(user, generate_password_hash(new_user_password))
+                    return None, None, None, dbc.Label('Usuário Adicionado!')
+                except:
+                    return None, None, None, dbc.Label('Erro ao adicionar o Usuário!')
             elif operacao == 'remover':
-                Database_Users().remover_usuario(user)
-                return None, None, None
+                try:
+                    Database_Users().remover_usuario(user)
+                    return None, None, None, dbc.Label('Usuário removido com sucesso!')
+                except:
+                    return None, None, None, dbc.Label('Erro ao remover o usuário!')
         
