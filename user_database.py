@@ -22,7 +22,7 @@ Users_tbl = Table('users', Users.metadata)
 
 class Database_Users:
     def __init__(self) -> None:
-        self.engine = create_engine(f'${{DATABASE_URL_CONNECTION}}')
+        self.engine = create_engine(${{DATABASE_URL_CONNECTION}})
         self.Session = sessionmaker(self.engine)
         self.session = self.Session()
         
@@ -109,7 +109,7 @@ class AdminPassword(Base):
 
 class AdminPasswordOperation:
     def __init__(self):
-        self.engine = create_engine(f'${{DATABASE_URL_CONNECTION}}')
+        self.engine = create_engine(${{DATABASE_URL_CONNECTION}})
         self.session = sessionmaker(bind=self.engine)()
     
     def criar_database(self):
