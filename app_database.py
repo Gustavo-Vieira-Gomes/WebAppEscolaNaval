@@ -13,7 +13,7 @@ class CorpoAspirantes(Base):
     Nome = Column(String)
 
     def __init__(self):
-        self.engine = create_engine(f'${{DATABASE_URL_CONNECTION}}')
+        self.engine = create_engine(${{DATABASE_URL_CONNECTION}})
         self.session = sessionmaker(bind=self.engine)()
 
     def inserir_corpo_de_aspirantes(self, df_):
@@ -48,7 +48,7 @@ class ObservacoesDinamicas(Base2):
 
 class OperacoesObservacoes:
     def __init__(self):
-        self.engine = (f'${{DATABASE_URL_CONNECTION}}')
+        self.engine = (${{DATABASE_URL_CONNECTION}})
         self.session = sessionmaker(bind=self.engine)()
 
     def criar_table(self):
