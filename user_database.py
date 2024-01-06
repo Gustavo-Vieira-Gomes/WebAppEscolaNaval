@@ -22,7 +22,7 @@ Users_tbl = Table('users', Users.metadata)
 
 class Database_Users:
     def __init__(self) -> None:
-        self.engine = create_engine(${{DATABASE_URL_CONNECTION}})
+        self.engine = create_engine('postgresql://postgres:anaeivan10@localhost:5432/postgres')
         self.Session = sessionmaker(self.engine)
         self.session = self.Session()
         
@@ -31,14 +31,14 @@ class Database_Users:
         Users.metadata.create_all(self.engine)
 
     def registrar_user(self, num_int, old_password, password):
-        pdb.set_trace()
+        #pdb.set_trace()
         if check_password_hash(Users.query.filter_by(Num_interno=num_int).first().password, old_password):
             hashed_password = generate_password_hash(password, method='sha256')
-            pdb.set_trace()
+            #pdb.set_trace()
             upd = Users_tbl.update().where(Users_tbl.c.Num_interno==num_int).values(password=hashed_password)
             conn = self.engine.connect()
             try:
-                pdb.set_trace()
+                #pdb.set_trace()
                 conn.execute(upd)
                 conn.commit()
                 conn.close()
@@ -109,7 +109,7 @@ class AdminPassword(Base):
 
 class AdminPasswordOperation:
     def __init__(self):
-        self.engine = create_engine(${{DATABASE_URL_CONNECTION}})
+        self.engine = create_engine('postgresql://postgres:anaeivan10@localhost:5432/postgres')
         self.session = sessionmaker(bind=self.engine)()
     
     def criar_database(self):
