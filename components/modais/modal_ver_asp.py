@@ -99,7 +99,6 @@ def table(n1, n2, asp_pos, asp_neg):
 
     df['Data'] = df['Data'].apply(lambda x: x.strftime('%d/%m/%Y'))
     df['Tipo de OD'] = df['Tipo de OD'].map({1: 'Negativa', 2: 'Positiva'})
-    df['Repreensao?'] = df['Repreensao?'].map({False: 'Não', True: 'Sim'})
 
 
     table = dash_table.DataTable(
@@ -146,8 +145,6 @@ def table_(n1, searched_data):
  
         df['Data'] = df['Data'].apply(lambda x: x.strftime('%d/%m/%Y'))
         df['Tipo de OD'] = df['Tipo de OD'].map({1: 'Negativa', 2: 'Positiva'})
-        df['Repreensao?'] = df['Repreensao?'].map({False: 'Não', True: 'Sim'})
-
 
     table = dash_table.DataTable(
         id='datatable',

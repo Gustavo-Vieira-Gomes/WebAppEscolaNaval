@@ -36,9 +36,8 @@ layout = dbc.Modal([
         ]),
         dbc.Row([
             dbc.Col([
-                dcc.RadioItems(options=[{'label': 'Positiva', 'value': 2}, {'label': 'Negativa', 'value': 1}], value='Negativa', inline=True, className='dbc', id='positivity'),
-                dbc.Checkbox(id='repreensao_po', label='É repreensão de PO?', style={'margin-top': '10px'}, value=False)
-            ]),
+                dcc.RadioItems(options=[{'label': 'Positiva', 'value': 2}, {'label': 'Negativa', 'value': 1}], value='Negativa', className='dbc', id='positivity', style={'margin-top': '10%'}),
+            ], style={'text-align': 'center'}),
             dbc.Col([
                 dbc.Label('Data da Observação', style={'text-align': 'center', 'margin-top': '10px', 'margin-bottom': '5px'}),
                 dcc.DatePickerSingle(date=datetime.date.today(), min_date_allowed=datetime.date(datetime.datetime.today().year, 1, 1),
@@ -72,17 +71,16 @@ layout = dbc.Modal([
     State('nome_de_guerra', 'value'),
     State('nome_responsavel_od', 'value'),
     State('positivity', 'value'),
-    State('repreensao_po', 'value'),
     State('data_da_od', 'date'),
     State('descricao_od', 'value'),
     prevent_initial_call=True
 )
-def adicionar_od_no_bd(n_clicks, num_int, nome_de_guerra, nome_responsavel, sinal, repreensao, data, descricao):
+def adicionar_od_no_bd(n_clicks, num_int, nome_de_guerra, nome_responsavel, sinal, data, descricao):
     if n_clicks is None:
         raise PreventUpdate
     
     try:
-        OperacoesObservacoes().adicionar_od(num_int=num_int, nome= nome_de_guerra, responsavel=nome_responsavel, data=data, tipo=sinal, repreensao=repreensao, descricao=descricao)
+        OperacoesObservacoes().adicionar_od(num_int=num_int, nome= nome_de_guerra, responsavel=nome_responsavel, data=data, tipo=sinal, descricao=descricao)
         #print('Feito')
         return None, None, None, None, dbc.Label('OD adicionada com sucesso! ')
     except Exception as E:

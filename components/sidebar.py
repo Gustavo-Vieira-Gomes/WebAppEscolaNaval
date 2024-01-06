@@ -42,7 +42,7 @@ layout_sidebar = dbc.Container([
             dbc.Row([
                 dbc.Col([
                     dbc.Nav([
-                        dbc.NavItem(dbc.NavLink([html.I(className='fa fa-plus-circle dbc'), '\tADICIONAR OD'], id='nova_od_button', active=True, style={'text-align': 'left', 'font-size':'13px'})),
+                        dbc.NavItem(dbc.NavLink([html.I(className='fa fa-plus-circle dbc'), '\tADICIONAR OD'], id='nova_od_button', active=True, style={'text-align': 'left', 'font-size':'13px'}, disabled=True)),
                         html.Br(),
                         dbc.NavItem(dbc.NavLink([html.I(className='fa fa-cogs dbc'), '\tREINICIAR ANO'], id='admin_button', active=True, style={'text-align': 'left', 'font-size': '13px'})),
                         html.Br(),
