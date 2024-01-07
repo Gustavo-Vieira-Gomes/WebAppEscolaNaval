@@ -20,10 +20,11 @@ layout_new_user = dbc.Modal([
                 dbc.Input(id='modify_user')
             ]),
             dbc.Col([
-                dbc.Input(id='required_password', type='password', placeholder='Nova senha do Usuário')
+                dbc.Input(id='admin_password2', type='password', placeholder='Senha de Administrador')
             ]),
             dbc.Col([
-                dbc.Input(id='admin_password2', type='password', placeholder='Senha de Administrador')
+                dbc.Input(id='required_password', type='password', placeholder='Nova senha do Usuário'),
+                dbc.Checkbox(id='editor', label='Este novo usuário poderá adicionar novas ODs?', value=False)
             ]),
             dcc.Store(id='operation_user', data='')
         ])
@@ -173,6 +174,7 @@ def reiniciar_ano(n_clicks, excluir_ods, atualizar_CA, conteudo, filename, passw
     Output('modal_admin', 'is_open', allow_duplicate=True),
     Output('operation_user', 'data'),
     Output('new_user_button', 'children'),
+    Output('editor', 'disabled'),
     Input('adc_user', 'n_clicks'),
     Input('remove_user', 'n_clicks'),
     Input('voltar_modify_user_button', 'n_clicks'),
@@ -187,16 +189,16 @@ def abrir_e_fechar_modificar_users(n1, n2, n3, n4, is_open):
     #pdb.set_trace()
     if trigg_id == 'adc_user':
         if n1 != None:
-            return True, 'Adicionar Usuário', 'Novo Usuário', False, False, 'adicionar', 'Adicionar Usuário'
+            return True, 'Adicionar Usuário', 'Novo Usuário', False, False, 'adicionar', 'Adicionar Usuário', False
     elif trigg_id == 'remove_user':
         if n2 != None:
-            return True, 'Remover Usuário', 'Usuário a ser removido', True, False, 'remover', 'Remover Usuário'
+            return True, 'Remover Usuário', 'Usuário a ser removido', True, False, 'remover', 'Remover Usuário', True
     elif trigg_id == 'new_user_button':
         if n4 != None:
-            return False, '', '', False, False, '', ''
+            return False, '', '', False, False, '', '', False
     else:
         if n3 != None:
-            return False, '', '', False, False, '', ''
+            return False, '', '', False, False, '', '', False
         
 @app.callback(
     Output('modify_user', 'value'),
@@ -208,15 +210,16 @@ def abrir_e_fechar_modificar_users(n1, n2, n3, n4, is_open):
     State('modify_user', 'value'),
     State('required_password', 'value'),
     State('admin_password2', 'value'),
+    State('editor', 'value'),
     prevent_initial_call=True
 )
-def modificar_users(n_clicks, operacao, user, new_user_password, admin_password):
+def modificar_users(n_clicks, operacao, user, new_user_password, admin_password, editor):
     if n_clicks != None:
         hashed_password = AdminPasswordOperation().pegar_senha()
         if check_password_hash(hashed_password, admin_password):
             if operacao == 'adicionar':
                 try:
-                    Database_Users().adicionar_usuario(user, generate_password_hash(new_user_password))
+                    Database_Users().adicionar_usuario(user, editor, generate_password_hash(new_user_password))
                     return None, None, None, dbc.Label('Usuário Adicionado!')
                 except:
                     return None, None, None, dbc.Label('Erro ao adicionar o Usuário!')

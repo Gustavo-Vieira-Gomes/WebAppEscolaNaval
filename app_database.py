@@ -17,6 +17,7 @@ class CorpoAspirantes(Base):
 
     def inserir_corpo_de_aspirantes(self, df_):
         df = pd.DataFrame(df_)
+        df.loc[:, ('Numero', 'Nome')]
         df.to_sql('corpo_de_aspirantes', con=self.engine, if_exists='replace', )
 
     def excluir_corpo_de_aspirantes(self):

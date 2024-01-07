@@ -46,6 +46,7 @@ def render_layout(message):
 # ========= Callbacks =========
 @app.callback(
     Output('login-state', 'data'),
+    Output('num_interno', 'data'),
     Input('login_button', 'n_clicks'),
     State('user_login', 'value'),
     State('pwd_login', 'value')
@@ -57,9 +58,9 @@ def successful(n_clicks, num_int, pwd):
     if num_int and pwd is not None:
         try:
             Database_Users().verificar_senha_de_login(num_int, pwd)
-            return 'success'
+            return 'success', f'{num_int}'
         except Exception as E:
             print('verificar...',E)
-            return 'error'
+            return 'error', ''
     else:
-        return 'error'
+        return 'error', ''

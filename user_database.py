@@ -17,6 +17,7 @@ class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     Num_interno = db.Column(db.String(10), nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    Editor = db.Column(db.Boolean, nullable=False)
 
 Users_tbl = Table('users', Users.metadata)
 
@@ -60,14 +61,17 @@ class Database_Users:
         df_quarto_ano.rename(columns={'Numero': 'Num_interno'}, inplace=True)
         df_quarto_ano.rename_axis(index='id', inplace=True)
         df_quarto_ano.drop('Nome', inplace=True, axis=1)
+        df_quarto_ano.fillna(value=False, inplace=True)
+        df_quarto_ano.loc[:, 'Editor'].replace('x', True, inplace=True)
+        pdb.set_trace()
         try:
             df_quarto_ano.to_sql('users', con=self.engine, if_exists='replace', index_label='id')
         except Exception as E:
             print('não foi possível jogar a tabela para o banco', E)
 
-    def adicionar_usuario(self, user, password):
+    def adicionar_usuario(self, user, editor, password):
         id = len(Users.query.all())
-        usuario = Users(id=id, Num_interno=user, password=password)    
+        usuario = Users(id=id, Num_interno=user, Editor=editor, password=password)    
         try:
             #pdb.set_trace()
             self.session.add(usuario)
@@ -96,10 +100,14 @@ class Database_Users:
         if check_password_hash(user.password, password):
             try:
                 login_user(user, duration=timedelta(hours=12), remember=True, force=True)
-            except Exception as E:
+            except Exception as E: 
                 print('login_user', E)
         else:
             raise ConnectionRefusedError
+        
+    def editor_de_od(self, num_int):
+        user = Users.query.filter_by(Num_interno=num_int).first()
+        return user.Editor
         
 Base = declarative_base()
 

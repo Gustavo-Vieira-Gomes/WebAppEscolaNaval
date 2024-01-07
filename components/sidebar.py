@@ -4,6 +4,8 @@ import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import ThemeSwitchAIO
 from dash.exceptions import PreventUpdate
 from flask_login import logout_user, current_user
+from user_database import Database_Users
+import pdb
 
 from components.modais import modal_nova_od, modal_admin, modal_ver_asp
 from app import app
@@ -102,3 +104,15 @@ def toggle_modal(n, n2, n3, is_open):
         return not is_open
     return is_open
 
+@app.callback(
+    Output('nova_od_button', 'disabled'),
+    Input("base-url", "pathname"),
+    State('num_interno', 'data')
+)
+def disabled_or_not(url, user):
+    if Database_Users().editor_de_od(user):
+        print('sim')
+        return False
+    else:
+        return True
+    

@@ -25,6 +25,7 @@ app.layout = dbc.Container(children=[
             dcc.Store(id="login-state", data=""),
             dcc.Store(id="register-state", data=""),
             dcc.Store(id='searched_asp_store', data=''),
+            dcc.Store(id='num_interno', data=''),
 
             html.Div(id='page-content', style={'height': '100vh', 'display': 'flex', 'justify-content': 'center', 'margin': '0px', 'padding-left': '0px', 'padding-right': '0px'})
         ], style={'margin': '0px', 'padding': '0px'}, width=True)
