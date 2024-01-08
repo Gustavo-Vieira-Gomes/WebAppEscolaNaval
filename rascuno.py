@@ -1,5 +1,5 @@
 import pandas as pd
 
-df = pd.read_excel('1º CIA - Sistema de ODs 2023.xlsm', sheet_name='Corpo de Aspirantes')
+lista = [['4001', True], ['4002', True], ['FN-401', True], ['IM-401', True], ['4003', False]]
 
-
+df = pd.DataFrame(lista)
