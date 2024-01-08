@@ -7,7 +7,7 @@ from flask_login import logout_user, current_user
 from user_database import Database_Users
 import pdb
 
-from components.modais import modal_nova_od, modal_admin, modal_ver_asp
+from components.modais import modal_nova_od, modal_admin, modal_ver_asp, modal_ver_users
 from app import app
 
 
@@ -20,6 +20,7 @@ layout_sidebar = dbc.Container([
     modal_admin.layout,
     modal_ver_asp.layout,
     modal_admin.layout_new_user,
+    modal_ver_users.layout,
     dbc.Container([
         dbc.Row([
             dbc.Col([
@@ -47,6 +48,8 @@ layout_sidebar = dbc.Container([
                         dbc.NavItem(dbc.NavLink([html.I(className='fa fa-plus-circle dbc'), '\tADICIONAR OD'], id='nova_od_button', active=True, style={'text-align': 'left', 'font-size':'13px'}, disabled=True)),
                         html.Br(),
                         dbc.NavItem(dbc.NavLink([html.I(className='fa fa-cogs dbc'), '\tREINICIAR ANO'], id='admin_button', active=True, style={'text-align': 'left', 'font-size': '13px'})),
+                        html.Br(),
+                        dbc.NavItem(dbc.NavLink([html.I(className='fa fa-window-close-o'), '\tVER USUÁRIOS'], id='ver_users_button', active=True, style={'text-align': 'left', 'font-size': '14px'})),
                         html.Br(),
                         dbc.NavItem(dbc.NavLink([html.I(className='fa fa-window-close-o'), '\tLOGOUT'], id='logout_button', active=True, style={'text-align': 'left', 'font-size': '14px'})),
                         html.Br()
@@ -111,8 +114,20 @@ def toggle_modal(n, n2, n3, is_open):
 )
 def disabled_or_not(url, user):
     if Database_Users().editor_de_od(user):
-        print('sim')
         return False
     else:
         return True
     
+
+@app.callback(
+    Output('modal_apresentar_users', 'is_open'),
+    Input('ver_users_button', 'n_clicks'),
+    Input('voltar_ver_user', 'n_clicks'),
+    State('modal_apresentar_users', 'is_open'),
+    prevent_initial_call=True
+)
+def toggle_modal(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    else:
+        return is_open

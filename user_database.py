@@ -108,6 +108,14 @@ class Database_Users:
     def editor_de_od(self, num_int):
         user = Users.query.filter_by(Num_interno=num_int).first()
         return user.Editor
+    
+    def pegar_tabela(self):
+        lista_usuarios = list()
+        usuarios = Users.query.all()
+        for user in usuarios:
+            lista_usuarios.append([user.Num_interno, user.Editor])
+            
+        return lista_usuarios
         
 Base = declarative_base()
 
