@@ -17,7 +17,7 @@ class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     Num_interno = db.Column(db.String(10), nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    Editor = db.Column(db.Boolean, nullable=False)
+    Acesso = db.Column(db.Integer, nullable=False)
 
 Users_tbl = Table('users', Users.metadata)
 
@@ -61,17 +61,16 @@ class Database_Users:
         df_quarto_ano.rename(columns={'Numero': 'Num_interno'}, inplace=True)
         df_quarto_ano.rename_axis(index='id', inplace=True)
         df_quarto_ano.drop('Nome', inplace=True, axis=1)
-        df_quarto_ano.fillna(value=False, inplace=True)
-        df_quarto_ano.loc[:, 'Editor'].replace('x', True, inplace=True)
-        pdb.set_trace()
+        df_quarto_ano.fillna(value=0, inplace=True)
+        df_quarto_ano.loc[:, 'Acesso'] = df_quarto_ano.loc[:, 'Acesso'].astype('Int8')
         try:
             df_quarto_ano.to_sql('users', con=self.engine, if_exists='replace', index_label='id')
         except Exception as E:
             print('não foi possível jogar a tabela para o banco', E)
 
-    def adicionar_usuario(self, user, editor, password):
+    def adicionar_usuario(self, user, Acesso, password):
         id = len(Users.query.all())
-        usuario = Users(id=id, Num_interno=user, Editor=editor, password=password)    
+        usuario = Users(id=id, Num_interno=user, Acesso=Acesso, password=password)    
         try:
             #pdb.set_trace()
             self.session.add(usuario)
@@ -107,42 +106,13 @@ class Database_Users:
         
     def editor_de_od(self, num_int):
         user = Users.query.filter_by(Num_interno=num_int).first()
-        return user.Editor
+        return user.Acesso
     
     def pegar_tabela(self):
         lista_usuarios = list()
         usuarios = Users.query.all()
         for user in usuarios:
-            lista_usuarios.append([user.Num_interno, user.Editor])
+            lista_usuarios.append([user.Num_interno, user.Acesso])
             
         return lista_usuarios
-        
-Base = declarative_base()
-
-class AdminPassword(Base):
-    __tablename__ = 'admin_password'
-    admin_password = Column(String, primary_key=True)
-
-class AdminPasswordOperation:
-    def __init__(self):
-        self.engine = create_engine('postgresql://postgres:anaeivan10@localhost:5432/postgres')
-        self.session = sessionmaker(bind=self.engine)()
     
-    def criar_database(self):
-        Base.metadata.create_all(self.engine)
-
-    def inserir_senha(self, password):
-        hashed_password = generate_password_hash(password)
-        instance = AdminPassword(admin_password=hashed_password)
-        self.session.add(instance)
-        self.session.commit()
-        self.session.close()
-
-    def apagar_senha(self):
-        Base.metadata.drop_all(self.engine)
-
-    def pegar_senha(self):
-        query = self.session.query(AdminPassword).all()
-        for passwords in query:
-            senha = passwords.admin_password
-        return senha

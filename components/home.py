@@ -134,6 +134,15 @@ layout_home = dbc.Container([
                             ])
                     ])
                 ])
+            ], className='g-2 my-auto'),
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            html.Div(id='feedback_div', className='dbc', style={'margin': '0px', 'padding': '0px', 'text-align': 'center'})                          
+                        ])
+                    ])
+                ])
             ], className='g-2 my-auto')
         ], md=7)
     ], className='g-2 my-auto')

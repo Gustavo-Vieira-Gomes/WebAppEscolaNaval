@@ -34,8 +34,8 @@ layout = dbc.Modal(children=[
 )
 def table(n1):    
     usuarios = Database_Users().pegar_tabela()
-    df = pd.DataFrame(data=usuarios, columns=['Usuário', 'Editor de OD'])
-    df.replace({True:'Sim', False:'Não'}, inplace=True)
+    df = pd.DataFrame(data=usuarios, columns=['Usuário', 'Nível de Acesso'])
+    df.replace({2:'Administrador', 1:'Editor de ODs', 0:'Visualizador'}, inplace=True)
     table = dash_table.DataTable(
         id='datatable',
         columns=[{'name': i, 'id': i} for i in df.columns],

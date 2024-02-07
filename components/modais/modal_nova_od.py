@@ -23,18 +23,11 @@ layout = dbc.Modal([
             dbc.Col([
                 dbc.Row([
                     dbc.Col([
-                        dbc.Label('Responsável pela OD')
-                    ])
-                ]),
-                dbc.Row([
-                    dbc.Col([
                         dbc.Label('Nome do Responsavel da OD'),
                         dbc.Input(id='nome_responsavel_od', placeholder='Ex:4001/FN-401/IM-401')
                     ])
                 ])
-            ])
-        ]),
-        dbc.Row([
+            ]),
             dbc.Col([
                 dcc.RadioItems(options=[{'label': 'Positiva', 'value': 2}, {'label': 'Negativa', 'value': 1}], value='Negativa', className='dbc', id='positivity', style={'margin-top': '10%'}),
             ], style={'text-align': 'center'}),

@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, Date
 from sqlalchemy.orm import sessionmaker, declarative_base
 import pandas as pd
+import datetime
 import pdb
 
 Base = declarative_base()
@@ -109,3 +110,15 @@ class OperacoesObservacoes:
             return asp_destaque, numero_de_anots
  
 
+    def obter_todas_ods(self):
+        df = pd.DataFrame(columns=['Numero Interno', 'Nome', 'Responsavel', 'Data', 'Tipo de OD', 'Descricao'])
+        query = self.session.query(ObservacoesDinamicas).all()
+        
+        for od in query:
+            df_ = pd.DataFrame({'Numero Interno': od.Num_interno, 'Nome': od.Nome, 'Responsavel': od.Responsavel, 'Data': od.Data, 'Tipo de OD': od.TipoDeOD, 'Descricao': od.Descricao}, index=[od.id])
+            df = pd.concat([df, df_], axis=0)
+        
+        df.loc[:, 'Tipo de OD'] = df.loc[:, 'Tipo de OD'].replace(2, 'positiva').replace(1, 'negativa')
+        df.loc[:, 'Data'] = df.loc[:, 'Data'].apply(lambda x: datetime.datetime.strftime(x, '%d/%m/%Y'))
+        
+        return df

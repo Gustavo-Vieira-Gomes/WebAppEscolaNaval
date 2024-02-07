@@ -1,10 +1,11 @@
 from dash import html
-from dash import Input, Output, State
+from dash import Input, Output, State, dcc
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import ThemeSwitchAIO
 from dash.exceptions import PreventUpdate
 from flask_login import logout_user, current_user
 from user_database import Database_Users
+from app_database import OperacoesObservacoes
 import pdb
 
 from components.modais import modal_nova_od, modal_admin, modal_ver_asp, modal_ver_users
@@ -30,10 +31,10 @@ layout_sidebar = dbc.Container([
         dbc.Row([
             dbc.Col([
                 html.H3('NAVAL', style={'color': 'white'}),
-                html.Img(src=app.get_asset_url('logo_en.png'), width='80vw')
+                html.Img(src=app.get_asset_url('logo_en.png'), width='80vw'),
             ])
         ]),
-    ], style={'padding-top': '50px', 'margin-bottom': '30px'}, className='text-center'),
+    ], style={'padding-top': '50px', 'margin-bottom': '10px'}, className='text-center'),
     html.Hr(),
     dbc.Row([
         dbc.Col([
@@ -45,16 +46,18 @@ layout_sidebar = dbc.Container([
             dbc.Row([
                 dbc.Col([
                     dbc.Nav([
-                        dbc.NavItem(dbc.NavLink([html.I(className='fa fa-plus-circle dbc'), '\tADICIONAR OD'], id='nova_od_button', active=True, style={'text-align': 'left', 'font-size':'13px'}, disabled=True)),
+                        dbc.NavItem(dbc.NavLink(['\tADICIONAR OD'], id='nova_od_button', active=True, style={'text-align': 'left', 'font-size':'13px'}, disabled=True)),
                         html.Br(),
-                        dbc.NavItem(dbc.NavLink([html.I(className='fa fa-cogs dbc'), '\tREINICIAR ANO'], id='admin_button', active=True, style={'text-align': 'left', 'font-size': '13px'})),
+                        dbc.NavItem(dbc.NavLink(['\tREINICIAR ANO'], id='admin_button', active=True, style={'text-align': 'left', 'font-size': '13px'}, disabled=True)),
                         html.Br(),
-                        dbc.NavItem(dbc.NavLink([html.I(className='fa fa-window-close-o'), '\tVER USUÁRIOS'], id='ver_users_button', active=True, style={'text-align': 'left', 'font-size': '14px'})),
+                        dbc.NavItem(dbc.NavLink(['\tVER USUÁRIOS'], id='ver_users_button', active=True, style={'text-align': 'left', 'font-size': '14px'}, disabled=True)),
                         html.Br(),
-                        dbc.NavItem(dbc.NavLink([html.I(className='fa fa-window-close-o'), '\tLOGOUT'], id='logout_button', active=True, style={'text-align': 'left', 'font-size': '14px'})),
-                        html.Br()
-                    ], vertical=True, pills=True, fill=True, style={'margin-right': '0px', 'margin-left': '5px'} ),
-                    html.Div(id='feedback_div', className='dbc')
+                        dbc.NavItem(dbc.NavLink(['\tBAIXAR ODS'], id='download_excel_button', active=True, style={'text-align': 'left', 'font-size': '14px'}, disabled=True)),
+                        html.Br(),
+                        dbc.NavItem(dbc.NavLink(['\tLOGOUT'], id='logout_button', active=True, style={'text-align': 'left', 'font-size': '14px'})),
+                        html.Br(),
+                        dcc.Download('download_observacoes')
+                    ], vertical=True, pills=True, fill=True, style={'margin-right': '0px', 'margin-left': '5px'} )
                 ])
             ]),
             #
@@ -109,15 +112,20 @@ def toggle_modal(n, n2, n3, is_open):
 
 @app.callback(
     Output('nova_od_button', 'disabled'),
+    Output('admin_button', 'disabled'),
+    Output('ver_users_button', 'disabled'),
+    Output('download_excel_button', 'disabled'),
     Input("base-url", "pathname"),
     State('num_interno', 'data')
 )
 def disabled_or_not(url, user):
-    if Database_Users().editor_de_od(user):
-        return False
+    nivel_acesso = Database_Users().editor_de_od(user)
+    if nivel_acesso == 2:
+        return False, False, False, False
+    elif nivel_acesso == 1:
+        return False, True, True, True
     else:
-        return True
-    
+        return True, True, True, True
 
 @app.callback(
     Output('modal_apresentar_users', 'is_open'),
@@ -131,3 +139,13 @@ def toggle_modal(n1, n2, is_open):
         return not is_open
     else:
         return is_open
+    
+
+@app.callback(
+    Output('download_observacoes', 'data'),
+    Input('download_excel_button', 'n_clicks'),
+    prevent_initial_call=True
+)
+def download_observacoes_em_excel(n1):
+    df = OperacoesObservacoes().obter_todas_ods()
+    return dcc.send_data_frame(df.to_excel, 'observacoes_dinamicas.xlsx', sheet_name='observacoes dinamicas')
