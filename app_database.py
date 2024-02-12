@@ -13,7 +13,7 @@ class CorpoAspirantes(Base):
     Nome = Column(String)
 
     def __init__(self):
-        self.engine = create_engine('postgresql://postgres:anaeivan10@localhost:5432/postgres')
+        self.engine = create_engine('postgresql://postgres:anaeivan10@10.128.0.2:5432/postgres')
         self.session = sessionmaker(bind=self.engine)()
 
     def inserir_corpo_de_aspirantes(self, df_):
