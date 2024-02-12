@@ -85,4 +85,4 @@ def render_page_content(pathname, login_state, register_state):
 
 # Run
 if __name__ == '__main__':
-    app.run(debug=False, port=8051)
+    app.run(debug=False, port=80, host='10.128.0.2')
