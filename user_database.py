@@ -23,7 +23,7 @@ Users_tbl = Table('users', Users.metadata)
 
 class Database_Users:
     def __init__(self) -> None:
-        self.engine = create_engine('postgresql://postgres:anaeivan10@localhost:5432/postgres')
+        self.engine = create_engine('postgresql://postgres:anaeivan10@10.128.0.2:5432/postgres')
         self.Session = sessionmaker(self.engine)
         self.session = self.Session()
         
