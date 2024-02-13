@@ -25,7 +25,7 @@ def render_layout(message):
                 dbc.Col([
                     html.Legend("SODEN", className='dbc', style={'margin-bottom': '13px'}),
                     html.Img(src=app.get_asset_url('logo_en.png'), width='80vw'),
-                    html.Legend("Sistema de Observações Dinâmicas da Escola Naval", className='dbc', style={'margin-bottom': '3px'}),
+                    #html.Legend("Sistema de Observações Dinâmicas da Escola Naval", className='dbc', style={'margin-bottom': '3px'}),
                     html.Legend("Login", className='dbc', style={'margin-bottom': '10px'}),
                     dbc.Input(id="user_login", placeholder="Número Interno", type="text", class_name='dbc', style={'margin-top': '5px', 'margin-bottom': '5px'}),
                     dbc.Input(id="pwd_login", placeholder="Senha", type="password", class_name='dbc', style={'margin-top': '5px', 'margin-bottom': '5px'}),
