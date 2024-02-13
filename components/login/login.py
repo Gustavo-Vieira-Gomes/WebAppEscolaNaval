@@ -36,8 +36,7 @@ def render_layout(message):
             dbc.Row([
                 dbc.Col([
                      html.Div([
-                    html.Label("Ou", style={"margin-right": "5px"}),
-                    dcc.Link("Registre-se", href="/register"),
+                    dcc.Link("Alterar senha", href="/register"),
                 ], style={"padding": "20px", "justify-content": "center", "display": "flex"})
                 ])
             ])
