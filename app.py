@@ -15,7 +15,7 @@ server = app.server
 
 server.config.update(
     SECRET_KEY=os.urandom(12),
-    SQLALCHEMY_DATABASE_URI='postgresql://postgres:anaeivan10@localhost:5432/postgres',
+    SQLALCHEMY_DATABASE_URI='postgresql://postgres:apptolda@localhost:5432/postgres',
     SQLALCHEMY_TRACK_MODIFICATIONS=False)
 
 
