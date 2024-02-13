@@ -6,7 +6,7 @@ from user_database import Database_Users
 from app import *
 
 card_style = {
-    'width': '300px',
+    'width': '350px',
     'min-height': '300px',
     'padding-top': '25px',
     'padding-right': '25px',
@@ -23,9 +23,9 @@ def render_layout(message):
         dbc.CardBody([
             dbc.Row([
                 dbc.Col([
-                    html.Legend('Registrar'),
+                    html.Legend('Alterar senha'),
                     dbc.Input(id='numero_interno_register', placeholder='Número Interno', type='text', style={'margin-top': '5px', 'margin-bottom': '5px'}),
-                    dbc.Input(id='pwd_padrao', placeholder='Senha Padrão', type='password', style={'margin-top': '5px', 'margin-bottom': '5px'}),
+                    dbc.Input(id='pwd_padrao', placeholder='Senha atual', type='password', style={'margin-top': '5px', 'margin-bottom': '5px'}),
                     dbc.Input(id='pwd_usuario', placeholder='Nova senha', type='password', style={'margin-top': '5px', 'margin-bottom': '5px'}),
                     dbc.Button('Registrar', id='register-button'),
                     html.Span(message, style={'text-align': 'center'}),
