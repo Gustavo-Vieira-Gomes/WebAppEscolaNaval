@@ -87,4 +87,4 @@ def render_page_content(pathname, login_state, register_state):
 # Run
 if __name__ == '__main__':
     #app.run(debug=False, port=80, host='10.128.0.2')
-    app.run(debug=False, port=80, host='10.128.0.2', ssl_context=('/etc/letsencrypt/live/soden.pyserver.com.br/fullchain.pem', '/etc/letsencrypt/live/soden.pyserver.com.br/privkey.pem'))
+    app.run(debug=False, port=80, host='10.128.0.2', ssl_context=('/etc/letsencrypt/live/soden.pyserver.com.br/cert.pem', '/etc/letsencrypt/live/soden.pyserver.com.br/privkey.pem'))
