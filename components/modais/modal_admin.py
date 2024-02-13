@@ -212,7 +212,7 @@ def abrir_e_fechar_modificar_users(n1, n2, n3, n4, is_open):
     State('modify_user', 'value'),
     State('required_password', 'value'),
     State('editor', 'value'),
-    State('admnistrador', 'value'),
+    State('administrador', 'value'),
     prevent_initial_call=True
 )
 def modificar_users(n_clicks, operacao, user, new_user_password, editor, administrador):
