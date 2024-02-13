@@ -16,6 +16,7 @@ login_manager.login_view = '/login'
 
 # Ajustar conteúdo para stores
 
+app._favicon = 'favico.ico'
 app.title = 'SODEN 1.0'
 
 # ========== Layout ============
