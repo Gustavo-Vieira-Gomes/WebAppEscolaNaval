@@ -8,7 +8,7 @@ import pdb
 
 
 card_style = {
-    'width': '300px',
+    'width': '350px',
     'min-height': '300px',
     'padding-top': '25px',
     'padding-right': '25px',
