@@ -30,6 +30,7 @@ class CorpoAspirantes(Base):
                 searched_item = self.session.query(CorpoAspirantes).filter_by(Numero=value).first()
             case 'Nome':
                 searched_item = self.session.query(CorpoAspirantes).filter_by(Nome=value).first()
+        self.session.close()
         return searched_item
 
 Base2 = declarative_base()
@@ -76,6 +77,7 @@ class OperacoesObservacoes:
         for od in query:
             df_ = pd.DataFrame({'Numero Interno': od.Num_interno, 'Nome': od.Nome, 'Responsavel': od.Responsavel, 'Data': od.Data, 'Tipo de OD': od.TipoDeOD, 'Descricao': od.Descricao}, index=[od.id])
             df = pd.concat([df, df_], axis=0)
+        self.session.close()
 
         return df
 
@@ -89,7 +91,8 @@ class OperacoesObservacoes:
         for od in query:
             df_ = pd.DataFrame({'Numero Interno': od.Num_interno, 'Nome': od.Nome, 'Responsavel': od.Responsavel, 'Data': od.Data, 'Tipo de OD': od.TipoDeOD, 'Descricao': od.Descricao}, index=[od.id])
             df = pd.concat([df, df_], axis=0)
-        
+
+        self.session.close()
         if df.empty:
             return 'Sem ODs Inseridas no Banco de Dados Até Agora'
         else:
@@ -106,14 +109,14 @@ class OperacoesObservacoes:
             if tipo_de_od == 2:  numero_de_anots = filtered_df.loc[asp_destaque][0] / 2
             else: 
                 numero_de_anots = filtered_df.loc[asp_destaque][0]
-
+        
             return asp_destaque, numero_de_anots
  
 
     def obter_todas_ods(self):
         df = pd.DataFrame(columns=['Numero Interno', 'Nome', 'Responsavel', 'Data', 'Tipo de OD', 'Descricao'])
         query = self.session.query(ObservacoesDinamicas).all()
-        
+        self.session.close()
         for od in query:
             df_ = pd.DataFrame({'Numero Interno': od.Num_interno, 'Nome': od.Nome, 'Responsavel': od.Responsavel, 'Data': od.Data, 'Tipo de OD': od.TipoDeOD, 'Descricao': od.Descricao}, index=[od.id])
             df = pd.concat([df, df_], axis=0)
