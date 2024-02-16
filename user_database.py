@@ -112,7 +112,8 @@ class Database_Users:
         lista_usuarios = list()
         usuarios = Users.query.all()
         for user in usuarios:
-            lista_usuarios.append([user.Num_interno, user.Acesso])
+            if user.Num_interno != 'admin':
+                lista_usuarios.append([user.Num_interno, user.Acesso])
             
         return lista_usuarios
     
