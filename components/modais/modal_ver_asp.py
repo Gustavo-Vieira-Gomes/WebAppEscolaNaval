@@ -109,7 +109,10 @@ def table(n1, n2, asp_pos, asp_neg):
         sort_action='native',
         sort_mode='single',
         page_size=10,
-        page_current=0
+        page_current=0,
+        style_data={
+            'whiteSpace': 'normal',
+            'height': 'auto'}
     )
 
     return table, f'ASPIRANTE {numero} {nome}'
