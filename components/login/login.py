@@ -23,7 +23,7 @@ def render_layout(message):
         dbc.CardBody([
             dbc.Row([
                 dbc.Col([
-                    html.Legend("SODEN 1.0", className='dbc', style={'margin-bottom': '13px'}),
+                    html.Legend("SODEN 1.1", className='dbc', style={'margin-bottom': '13px'}),
                     html.Img(src=app.get_asset_url('logo_en.png'), width='80vw'),
                     #html.Legend("Sistema de Observações Dinâmicas da Escola Naval", className='dbc', style={'margin-bottom': '3px'}),
                     html.Legend("Login", className='dbc', style={'margin-bottom': '10px'}),
