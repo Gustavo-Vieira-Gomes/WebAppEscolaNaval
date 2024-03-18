@@ -157,7 +157,10 @@ def table_(n1, searched_data):
         sort_action='native',
         sort_mode='single',
         page_size=10,
-        page_current=0
+        page_current=0,
+        style_data={
+            'whiteSpace': 'normal',
+            'height': 'auto'}
     )
 
     return table, f"ASPIRANTE {searched_data['numero']} {searched_data['nome']}"
